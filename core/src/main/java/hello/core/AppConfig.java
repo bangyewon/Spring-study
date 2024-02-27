@@ -8,18 +8,22 @@ import hello.core.member.MemberServiceImpl;
 import hello.core.member.MemoryMemberRepository;
 import hello.core.order.OrderService;
 import hello.core.order.OrderServiceimpl;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
+@Configuration //설정 정보 적어줌
 public class AppConfig {
     /**
      * 이전에는 MemberServiceImp이 MemoryMemberRepository를 지정해줌
      * 이것을 AppConfig에서 환경설정을 모두 하는 것으로 의존성 바꿔야함
      */
     //AppConfig통해 memberService를 불러서 쓰게됨 -> MemberServiceImpl의 구현체 객체가 생성됨
+    @Bean //Bean 적어주면 이것들이 모두 스프링 컨테이너에 등록됨
     public MemberService memberService() {
         return new MemberServiceImpl(memberRepository());
     }
-
-    private MemoryMemberRepository memberRepository() {
+    @Bean
+    public MemoryMemberRepository memberRepository() {
         return new MemoryMemberRepository();
     }
     //OrderService에서도 생성자 주입 할것임 -> OrderServiceimpl에서
@@ -29,10 +33,12 @@ public class AppConfig {
      * OrderServiceimpl의 생성자에서 this를 통해 할당 완료됨
      * <생성자 주입 완료> -> DIP 지키기 완료됨 (인터페이스에만 의존 하게 됐음으로)
      */
+    @Bean
     public OrderService orderService() {
         return new OrderServiceimpl(memberRepository(),new FixDiscountPolicy());
     }
-public DiscountPolicy discountPolicy() {
+    @Bean
+    public DiscountPolicy discountPolicy() {
 //        return new FixDiscountPolicy();
     //할인정책 변경 되더라도 appConfig에서만 변경하면됨
     return new RateDiscountPolicy();
