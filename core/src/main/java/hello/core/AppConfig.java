@@ -20,10 +20,13 @@ public class AppConfig {
     //AppConfig통해 memberService를 불러서 쓰게됨 -> MemberServiceImpl의 구현체 객체가 생성됨
     @Bean //Bean 적어주면 이것들이 모두 스프링 컨테이너에 등록됨
     public MemberService memberService() {
+        // 결과적으로 "call AppConfig.memberRepository"가 3번 호출됨 -> 하지만 메서드가 한번 호출됨 (싱글톤 보장됨)
+        System.out.println("call AppConfig.memberRepository");
         return new MemberServiceImpl(memberRepository());
     }
     @Bean
     public MemoryMemberRepository memberRepository() {
+        System.out.println("call AppConfig.memberRepository");
         return new MemoryMemberRepository();
     }
     //OrderService에서도 생성자 주입 할것임 -> OrderServiceimpl에서
@@ -35,6 +38,7 @@ public class AppConfig {
      */
     @Bean
     public OrderService orderService() {
+        System.out.println("call AppConfig.memberRepository");
         return new OrderServiceimpl(memberRepository(),new FixDiscountPolicy());
     }
     @Bean
