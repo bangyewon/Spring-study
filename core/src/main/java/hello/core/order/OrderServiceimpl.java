@@ -6,9 +6,12 @@ import hello.core.discount.RateDiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
 import hello.core.member.MemoryMemberRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 // 주문 서비스 -> 할인 관련 구현하기
 //해당 인터페이스는 OrderService 의존 / MemberRepository,DiscountPolicy 참조 하고 있음
+@Component
 public class OrderServiceimpl implements OrderService {
     //고정 할인 정책의 memberRepository -> member 확인해야하기에
 //    private final MemberRepository memberRepository = new MemoryMemberRepository();
@@ -24,6 +27,7 @@ public class OrderServiceimpl implements OrderService {
 
     //생성자 만들어주기
     //AppConfig와 연결해 생성자 주입 완료 시키기
+    @Autowired
     public OrderServiceimpl(MemberRepository memberRepository,DiscountPolicy discountPolicy) {
         this.memberRepository = memberRepository;
         this.discountPolicy = discountPolicy;

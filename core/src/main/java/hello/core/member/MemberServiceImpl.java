@@ -1,6 +1,11 @@
 package hello.core.member;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 // MemberService 구현체
 //Impl이라고 붙인 이유 : 구현체가 하나만 있을때 인터페이스 명 뒤에 Impl이라고 붙이는 관례
+@Component // Component 보고 자동으로 스프링 빈 등록시켜줌 -> ComponentScan
 public class MemberServiceImpl implements MemberService {
     //구현객체 선택해 줘야함
 //    private  final MemberRepository memberRepository = new MemoryMemberRepository();
@@ -13,6 +18,8 @@ public class MemberServiceImpl implements MemberService {
      * 그렇기에 해당 코드 없어도 가능함
      */
     private  final MemberRepository memberRepository;
+    @Autowired // 자동 의존관계 주입 위해서 생성자에 넣기
+    //ac.getBean(MemberRepository.class)와 동일한 기능
     public MemberServiceImpl(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
